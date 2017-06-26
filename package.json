@@ -1,0 +1,50 @@
+{
+  "name": "pbkdf2-password-hash",
+  "version": "0.0.0",
+  "description": "hash password with pbkdf2",
+  "keywords": [
+    "hash",
+    "password",
+    "pbkdf2"
+  ],
+  "homepage": "https://github.com/commenthol/pbkdf2-password-hash#readme",
+  "bugs": {
+    "url": "https://github.com/commenthol/pbkdf2-password-hash/issues"
+  },
+  "license": "Unlicense",
+  "author": "commenthol <commenthol@gmail.com>",
+  "main": "src",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commenthol/pbkdf2-password-hash.git"
+  },
+  "scripts": {
+    "all": "npm run lint && npm test",
+    "lint": "eslint '**/*.js'",
+    "test": "mocha"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ]
+  },
+  "dependencies": {
+    "url-safe-base64": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^3.3.0"
+  },
+  "engine": {
+    "node": ">=6.0.0"
+  }
+}
