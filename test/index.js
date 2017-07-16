@@ -97,5 +97,19 @@ describe('#passwordHash', function () {
         assert.strictEqual(res, false)
       })
     })
+
+    it('with wrong type object', function () {
+      return passwordHash.compare({pwd: 'password'}, hash)
+      .then((res) => {
+        assert.strictEqual(res, false)
+      })
+    })
+
+    it('with wrong type array', function () {
+      return passwordHash.compare(['password', 'test'], hash)
+      .then((res) => {
+        assert.strictEqual(res, false)
+      })
+    })
   })
 })

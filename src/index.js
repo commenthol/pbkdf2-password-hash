@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const promisify = require('./promisify')
+const timingSafeEqual = require('compare-timing-safe')
 const pbkdf2 = promisify(crypto.pbkdf2)
 const randomBytes = promisify(crypto.randomBytes)
 const {isBase64} = require('url-safe-base64')
@@ -43,7 +44,7 @@ function hash (password, salt, opts) {
   return promise
   .then((_salt) => {
     salt = salt || _salt
-    return pbkdf2(password, salt, _opts.iterations, _opts.keylen, _opts.digest)
+    return pbkdf2(String(password), salt, _opts.iterations, _opts.keylen, _opts.digest)
   })
   .then((buf) => {
     const hash = buf.toString('base64')
@@ -62,19 +63,9 @@ function compare (password, passwordHash) {
   iterations = parseInt(iterations, 10)
   keylen = parseInt(keylen, 10)
   return hash(password, salt, {digest, iterations, keylen})
-  .then((hash) => (constTimeCompare(hash, passwordHash)))
-}
-
-/**
-* string comparison in length-constant time
-*/
-function constTimeCompare (a = '', b = '') {
-  let diff = (a.length !== b.length)
-  const len = Math.min(a.length, b.length)
-  for (let i = 0; i < len; i++) {
-    diff |= (a[i] !== b[i])
-  }
-  return (!!diff === false)
+  .then((hash) =>
+    timingSafeEqual(hash, passwordHash)
+  )
 }
 
 module.exports = {hash, compare}
