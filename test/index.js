@@ -16,100 +16,100 @@ describe('#passwordHash', function () {
   it('should hash password with given salt', function () {
     const salt = Buffer.from('salt').toString('base64')
     return passwordHash.hash('password', salt)
-    .then((res) => {
+      .then((res) => {
       // console.log(res)
-      assert.equal(res, hash)
-    })
+        assert.equal(res, hash)
+      })
   })
 
   it('should hash password with different options', function () {
     return passwordHash.hash('password', {iterations: 100, digest: 'sha1', keylen: 16, saltlen: 16})
-    .then((hash) => {
-      assert.ok(hash.indexOf('sha1$100$16$') === 0)
-      assert.ok(hash)
-      assert.equal(hash.length, 61)
-    })
+      .then((hash) => {
+        assert.ok(hash.indexOf('sha1$100$16$') === 0)
+        assert.ok(hash)
+        assert.equal(hash.length, 61)
+      })
   })
 
   it('should hash password using a fresh salt', function () {
     let hash
     return passwordHash.hash('password')
-    .then((_hash) => {
+      .then((_hash) => {
       // console.log(_hash)
-      hash = _hash
-      assert.ok(_hash)
-      assert.ok(_hash.indexOf('sha512$65536$64$') === 0)
-      assert.equal(_hash.length, 193)
-      return passwordHash.hash('password')
-    })
-    .then((_hash) => {
-      assert.ok(_hash)
-      assert.ok(_hash !== hash)
-    })
+        hash = _hash
+        assert.ok(_hash)
+        assert.ok(_hash.indexOf('sha512$65536$64$') === 0)
+        assert.equal(_hash.length, 193)
+        return passwordHash.hash('password')
+      })
+      .then((_hash) => {
+        assert.ok(_hash)
+        assert.ok(_hash !== hash)
+      })
   })
 
   describe('should validate a hashed password', function () {
     it('good case', function () {
       return passwordHash.compare('password', hash)
-      .then((res) => {
-        assert.strictEqual(res, true)
-      })
+        .then((res) => {
+          assert.strictEqual(res, true)
+        })
     })
 
     it('with wrong hash', function () {
       return passwordHash.compare('password', hashBadHash)
-      .then((res) => {
-        assert.strictEqual(res, false)
-      })
+        .then((res) => {
+          assert.strictEqual(res, false)
+        })
     })
 
     it('with wrong salt', function () {
       return passwordHash.compare('password', hashBadSalt)
-      .then((res) => {
-        assert.strictEqual(res, false)
-      })
+        .then((res) => {
+          assert.strictEqual(res, false)
+        })
     })
 
     it('with wrong iterations', function () {
       return passwordHash.compare('password', hashBadIter)
-      .then((res) => {
-        assert.strictEqual(res, false)
-      })
+        .then((res) => {
+          assert.strictEqual(res, false)
+        })
     })
 
     it('with bad keylen', function () {
       return passwordHash.compare('password', hashBadKeyl)
-      .then((res) => {
-        assert.strictEqual(res, false)
-      })
+        .then((res) => {
+          assert.strictEqual(res, false)
+        })
     })
 
     it('with wrong digest', function () {
       return passwordHash.compare('password', hashBadDige)
-      .then((res) => {
-        assert.strictEqual(res, false)
-      })
+        .then((res) => {
+          assert.strictEqual(res, false)
+        })
     })
 
     it('with wrong hash length', function () {
       return passwordHash.compare('password', hashBadHashlen)
-      .then((res) => {
-        assert.strictEqual(res, false)
-      })
+        .then((res) => {
+          assert.strictEqual(res, false)
+        })
     })
 
     it('with wrong type object', function () {
       return passwordHash.compare({pwd: 'password'}, hash)
-      .then((res) => {
-        assert.strictEqual(res, false)
-      })
+        .then((res) => {
+          assert.strictEqual(res, false)
+        })
     })
 
     it('with wrong type array', function () {
       return passwordHash.compare(['password', 'test'], hash)
-      .then((res) => {
-        assert.strictEqual(res, false)
-      })
+        .then((res) => {
+          assert.strictEqual(res, false)
+        })
     })
   })
 })

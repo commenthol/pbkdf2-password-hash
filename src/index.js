@@ -42,14 +42,14 @@ function hash (password, salt, opts) {
   }
 
   return promise
-  .then((_salt) => {
-    salt = salt || _salt
-    return pbkdf2(String(password), salt, _opts.iterations, _opts.keylen, _opts.digest)
-  })
-  .then((buf) => {
-    const hash = buf.toString('base64')
-    return `${_opts.digest}$${_opts.iterations}$${_opts.keylen}$${salt}$${hash}`
-  })
+    .then((_salt) => {
+      salt = salt || _salt
+      return pbkdf2(String(password), salt, _opts.iterations, _opts.keylen, _opts.digest)
+    })
+    .then((buf) => {
+      const hash = buf.toString('base64')
+      return `${_opts.digest}$${_opts.iterations}$${_opts.keylen}$${salt}$${hash}`
+    })
 }
 
 /**
@@ -63,9 +63,9 @@ function compare (password, passwordHash) {
   iterations = parseInt(iterations, 10)
   keylen = parseInt(keylen, 10)
   return hash(password, salt, {digest, iterations, keylen})
-  .then((hash) =>
-    timingSafeEqual(hash, passwordHash)
-  )
+    .then((hash) =>
+      timingSafeEqual(hash, passwordHash)
+    )
 }
 
 module.exports = {hash, compare}
