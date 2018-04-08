@@ -1,6 +1,6 @@
 {
   "name": "pbkdf2-password-hash",
-  "version": "2.0.0-0",
+  "version": "2.0.0",
   "description": "hash password with pbkdf2",
   "keywords": [
     "hash",
