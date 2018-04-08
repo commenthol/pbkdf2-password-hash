@@ -13,13 +13,19 @@ Requires node >= v6.0.0
 
 ## TOC
 
-* [Example](#example)
-* [API](#api)
-  * [`hash(password, [salt], [opts])`](#hashpassword-salt-opts)
-  * [`compare(password, passwordHash)`](#comparepassword-passwordhash)
-* [Installation](#installation)
-* [Tests](#tests)
-* [LICENSE](#license)
+<!-- TOC depthFrom:2 -->
+
+- [TOC](#toc)
+- [Example](#example)
+- [API](#api)
+  - [`hash(password, [salt], [opts])`](#hashpassword-salt-opts)
+  - [`compare(password, passwordHash)`](#comparepassword-passwordhash)
+- [Migrating from v1](#migrating-from-v1)
+- [Installation](#installation)
+- [Tests](#tests)
+- [LICENSE](#license)
+
+<!-- /TOC -->
 
 ## Example
 
@@ -30,9 +36,9 @@ const passwordHash = require('pbkdf2-password-hash')
 
 // generates random salt
 passwordHash.hash('password')
-.then((hash) => {
-  //> hash === 'sha512$65536$64$9rGu0njq2wr7foB47qpuR7lj5q28Mlv6crx8swPLZs1ROOUlRlV6nOrANLrvLMJZ+yCEs8K49Nu3ohcIG93xVw==$aUiFKRNpgkqPO4NK/eZz+kVClVqXZsi99L0WZYj9a39hNjSFhP3zg96c6KfGZLHbef0rfemuqpEq00ucldlyNg=='
-})
+  .then((hash) => {
+    //> hash === 'sha512$65536$64$F8zraj9jMjo/GmV91lPNVX7MP8iaJX/NK6YG4u4NH+wUeBBfydb5kZl4Bc7nlChZAH78YaExx9l0WfPuEC39Ew==$UcjfxN4pmEv+iD8nUjyd4hEnlkkkuLYEtAy1V3Cr3s96AAeyBLbRUhVgJTwSRJZUj23xQ2cuOPTnH/YoAkNqOQ=='
+  })
 ```
 
 Generate password hash with different options
@@ -40,14 +46,14 @@ Generate password hash with different options
 ```js
 passwordHash.hash('password', {iterations: 100, digest: 'sha1', keylen: 16, saltlen: 16})
 .then((hash) => {
-  //> hash === 'sha1$100$16$BA83S40bnNVUm8Ap16Ooxg==$7yI4bhCZsaz3fA0nQyAWlg=='
+  //> hash === 'sha1$100$16$fwzPKhZjCQSZMz+hY7A29A==$KdGdduxkKd08FDUuUVDVRQ=='
 })
 ```
 
 Validate password hash
 
 ```js
-const hash = 'sha512$65536$64$9rGu0njq2wr7foB47qpuR7lj5q28Mlv6crx8swPLZs1ROOUlRlV6nOrANLrvLMJZ+yCEs8K49Nu3ohcIG93xVw==$aUiFKRNpgkqPO4NK/eZz+kVClVqXZsi99L0WZYj9a39hNjSFhP3zg96c6KfGZLHbef0rfemuqpEq00ucldlyNg=='
+const hash = 'sha512$65536$64$F8zraj9jMjo/GmV91lPNVX7MP8iaJX/NK6YG4u4NH+wUeBBfydb5kZl4Bc7nlChZAH78YaExx9l0WfPuEC39Ew==$UcjfxN4pmEv+iD8nUjyd4hEnlkkkuLYEtAy1V3Cr3s96AAeyBLbRUhVgJTwSRJZUj23xQ2cuOPTnH/YoAkNqOQ=='
 passwordHash.compare('password', hash)
 .then((isValid) => {
   //> isValid === true
@@ -88,6 +94,23 @@ validate password against passwordHash
 
 
 **Returns** `Promise`, true if hash matches password
+
+## Migrating from v1
+
+> **⚠ NOTE:** v1 had an issue with low entropy for the salt as only base64 encoded values where used as input.
+
+Therefore all stored strings do require updating the salt to maintain compatibility with >= v2.
+
+_Example:_
+
+```js
+const convert = require('pbkdf2-password-hash/src/convert')
+
+// update salt only...
+const current = 'sha512$65536$64$c2FsdA==$kEGgeRm+ulyMV3QF5mbBAmN/YvShWUDnfxSfEQCtDFB6iBXU0BestPw5tLYB46qpXy3gqk40zUHa0D/LCzR8aQ=='
+const newHash = convert(current)
+//> newHash === 'sha512$65536$64$YzJGc2RBPT0=$kEGgeRm+ulyMV3QF5mbBAmN/YvShWUDnfxSfEQCtDFB6iBXU0BestPw5tLYB46qpXy3gqk40zUHa0D/LCzR8aQ=='
+```
 
 ## Installation
 
