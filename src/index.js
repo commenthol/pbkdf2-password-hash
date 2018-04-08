@@ -3,7 +3,8 @@ const promisify = require('./promisify')
 const timingSafeEqual = require('compare-timing-safe')
 const pbkdf2 = promisify(crypto.pbkdf2)
 const randomBytes = promisify(crypto.randomBytes)
-const {isBase64} = require('url-safe-base64')
+
+const SEP = '$'
 
 const OPTIONS = {
   iterations: Math.pow(2, 16), // ~ 10hashes/sec @ 2GHz
@@ -30,25 +31,25 @@ function hash (password, salt, opts) {
     salt = undefined
   }
   const _opts = Object.assign({}, OPTIONS, opts)
+  const { digest, iterations, keylen } = _opts
 
   let promise
 
   if (!salt) {
     promise = randomBytes(_opts.saltlen)
-      .then((_salt) => _salt.toString('base64'))
   } else {
-    if (!isBase64(salt)) salt = Buffer.from(salt).toString('base64')
-    promise = new Promise((resolve) => resolve())
+    promise = new Promise((resolve) => resolve(Buffer.from(salt, 'base64')))
   }
 
   return promise
-    .then((_salt) => {
-      salt = salt || _salt
-      return pbkdf2(String(password), salt, _opts.iterations, _opts.keylen, _opts.digest)
+    .then((saltBuf) => {
+      salt = saltBuf.toString('base64')
+      return pbkdf2(String(password), saltBuf, iterations, keylen, digest)
     })
     .then((buf) => {
       const hash = buf.toString('base64')
-      return `${_opts.digest}$${_opts.iterations}$${_opts.keylen}$${salt}$${hash}`
+      const str = [digest, iterations, keylen, salt, hash].join(SEP)
+      return str
     })
 }
 
@@ -59,7 +60,7 @@ function hash (password, salt, opts) {
 * @return {Promise} true if hash matches password
 */
 function compare (password, passwordHash) {
-  let [digest, iterations, keylen, salt] = passwordHash.split('$') // eslint-disable-line no-unused-vars
+  let [digest, iterations, keylen, salt] = passwordHash.split(SEP) // eslint-disable-line no-unused-vars
   iterations = parseInt(iterations, 10)
   keylen = parseInt(keylen, 10)
   return hash(password, salt, {digest, iterations, keylen})

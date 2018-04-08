@@ -1,6 +1,6 @@
 {
   "name": "pbkdf2-password-hash",
-  "version": "1.0.1",
+  "version": "2.0.0-0",
   "description": "hash password with pbkdf2",
   "keywords": [
     "hash",
@@ -32,8 +32,7 @@
     ]
   },
   "dependencies": {
-    "compare-timing-safe": "^1.0.0",
-    "url-safe-base64": "^1.1.0"
+    "compare-timing-safe": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
