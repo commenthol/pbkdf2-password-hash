@@ -22,7 +22,7 @@ describe('#passwordHash', function () {
   })
 
   it('should hash password with different options', function () {
-    return passwordHash.hash('password', {iterations: 100, digest: 'sha1', keylen: 16, saltlen: 16})
+    return passwordHash.hash('password', { iterations: 100, digest: 'sha1', keylen: 16, saltlen: 16 })
       .then((hash) => {
         // console.log(hash)
         assert.ok(hash.indexOf('sha1$100$16$') === 0)
@@ -98,7 +98,7 @@ describe('#passwordHash', function () {
     })
 
     it('with wrong type object', function () {
-      return passwordHash.compare({pwd: 'password'}, hash)
+      return passwordHash.compare({ pwd: 'password' }, hash)
         .then((res) => {
           assert.strictEqual(res, false)
         })

@@ -63,10 +63,10 @@ function compare (password, passwordHash) {
   let [digest, iterations, keylen, salt] = passwordHash.split(SEP) // eslint-disable-line no-unused-vars
   iterations = parseInt(iterations, 10)
   keylen = parseInt(keylen, 10)
-  return hash(password, salt, {digest, iterations, keylen})
+  return hash(password, salt, { digest, iterations, keylen })
     .then((hash) =>
       timingSafeEqual(hash, passwordHash)
     )
 }
 
-module.exports = {hash, compare}
+module.exports = { hash, compare }
