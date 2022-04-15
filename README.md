@@ -11,28 +11,27 @@ Per default uses `sha512` with 512 bit key and 2^16 iterations.
 
 Requires node >= v6.0.0
 
-## TOC
+## ToC
 
-<!-- TOC depthFrom:2 -->
+<!-- !toc (minlevel=2 omit="ToC") -->
 
-- [TOC](#toc)
-- [Example](#example)
-- [API](#api)
-  - [`hash(password, [salt], [opts])`](#hashpassword-salt-opts)
-  - [`compare(password, passwordHash)`](#comparepassword-passwordhash)
-- [Migrating from v1](#migrating-from-v1)
-- [Installation](#installation)
-- [Tests](#tests)
-- [LICENSE](#license)
+* [Example](#example)
+* [API](#api)
+  * [`hash(password, [salt], [opts])`](#hashpassword-salt-opts)
+  * [`compare(password, passwordHash)`](#comparepassword-passwordhash)
+* [Migrating from v1](#migrating-from-v1)
+* [Installation](#installation)
+* [Tests](#tests)
+* [LICENSE](#license)
 
-<!-- /TOC -->
+<!-- toc! -->
 
 ## Example
 
 Generate new password hash
 
 ```js
-const passwordHash = require('pbkdf2-password-hash')
+import passwordHash from 'pbkdf2-password-hash'
 
 // generates random salt
 passwordHash.hash('password')

@@ -1,6 +1,6 @@
-const crypto = require('crypto')
-const promisify = require('./promisify')
-const timingSafeEqual = require('compare-timing-safe')
+import crypto from 'crypto'
+import { promisify } from 'util'
+import timingSafeEqual from 'compare-timing-safe'
 const pbkdf2 = promisify(crypto.pbkdf2)
 const randomBytes = promisify(crypto.randomBytes)
 
@@ -38,7 +38,7 @@ function hash (password, salt, opts) {
   if (!salt) {
     promise = randomBytes(_opts.saltlen)
   } else {
-    promise = new Promise((resolve) => resolve(Buffer.from(salt, 'base64')))
+    promise = new Promise((resolve) => resolve(Buffer.from(salt || '', 'base64')))
   }
 
   return promise
@@ -60,13 +60,14 @@ function hash (password, salt, opts) {
 * @return {Promise} true if hash matches password
 */
 function compare (password, passwordHash) {
-  let [digest, iterations, keylen, salt] = passwordHash.split(SEP) // eslint-disable-line no-unused-vars
-  iterations = parseInt(iterations, 10)
-  keylen = parseInt(keylen, 10)
-  return hash(password, salt, {digest, iterations, keylen})
+  const [digest, _iterations, _keylen, salt] = passwordHash.split(SEP) // eslint-disable-line no-unused-vars
+  const iterations = parseInt(_iterations, 10)
+  const keylen = parseInt(_keylen, 10)
+  return hash(password, salt, { digest, iterations, keylen })
     .then((hash) =>
       timingSafeEqual(hash, passwordHash)
     )
 }
 
-module.exports = {hash, compare}
+export const passwordHash = { hash, compare }
+export default passwordHash
