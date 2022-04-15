@@ -1,6 +1,6 @@
-const assert = require('assert')
-const convert = require('../src/convert')
-const passwordHash = require('..')
+import assert from 'assert'
+import convert from '../src/convert.js'
+import passwordHash from '../src/index.js'
 
 describe('convert', function () {
   const exp = 'sha512$65536$64$YzJGc2RBPT0=$kEGgeRm+ulyMV3QF5mbBAmN/YvShWUDnfxSfEQCtDFB6iBXU0BestPw5tLYB46qpXy3gqk40zUHa0D/LCzR8aQ=='

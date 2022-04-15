@@ -7,4 +7,4 @@ function convert (passwordHash) {
   return newPasswordHash
 }
 
-module.exports = convert
+export default convert

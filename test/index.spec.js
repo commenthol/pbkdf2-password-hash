@@ -1,7 +1,7 @@
 /* eslint no-multi-spaces:0 */
 
-const assert = require('assert')
-const passwordHash = require('..')
+import assert from 'assert'
+import passwordHash from '../src/index.js'
 
 describe('#passwordHash', function () {
   const hash           = 'sha512$65536$64$YzJGc2RBPT0=$kEGgeRm+ulyMV3QF5mbBAmN/YvShWUDnfxSfEQCtDFB6iBXU0BestPw5tLYB46qpXy3gqk40zUHa0D/LCzR8aQ=='
