@@ -7,9 +7,9 @@
 Generation and validation of passwords using PBKDF2 hashes.
 
 Safety is obtained by using safe digest, large number of iterations and large key-length for PBKDF2.
-Per default uses `sha512` with 512 bit key and 2^16 iterations.
+Per default uses `sha512` with 512 bit key and 120,000 iterations.
 
-Requires node >= v6.0.0
+This is as recommended by [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#pbkdf2).
 
 ## ToC
 
@@ -36,7 +36,7 @@ import passwordHash from 'pbkdf2-password-hash'
 // generates random salt
 passwordHash.hash('password')
   .then((hash) => {
-    //> hash === 'sha512$65536$64$F8zraj9jMjo/GmV91lPNVX7MP8iaJX/NK6YG4u4NH+wUeBBfydb5kZl4Bc7nlChZAH78YaExx9l0WfPuEC39Ew==$UcjfxN4pmEv+iD8nUjyd4hEnlkkkuLYEtAy1V3Cr3s96AAeyBLbRUhVgJTwSRJZUj23xQ2cuOPTnH/YoAkNqOQ=='
+    //> hash === 'sha512$120000$64$hBKkXNgl006VdFvQPyCawVYwdT78Uns1x0VnixvHHKfVzjS0Y0p58auWZ5AVV6MFGt/E1HaJ2MOqJSlKkaDspA==$zkq/ubSJoqflS23Ot5EkI6H+LE+D26p+6C0wtPHIr4HPVZPfXR/ZiflXAQ01b2uXCfHN8XUzOXWY9MqcvBYIog=='
   })
 ```
 
@@ -52,7 +52,7 @@ passwordHash.hash('password', {iterations: 100, digest: 'sha1', keylen: 16, salt
 Validate password hash
 
 ```js
-const hash = 'sha512$65536$64$F8zraj9jMjo/GmV91lPNVX7MP8iaJX/NK6YG4u4NH+wUeBBfydb5kZl4Bc7nlChZAH78YaExx9l0WfPuEC39Ew==$UcjfxN4pmEv+iD8nUjyd4hEnlkkkuLYEtAy1V3Cr3s96AAeyBLbRUhVgJTwSRJZUj23xQ2cuOPTnH/YoAkNqOQ=='
+const hash = 'sha512$120000$64$hBKkXNgl006VdFvQPyCawVYwdT78Uns1x0VnixvHHKfVzjS0Y0p58auWZ5AVV6MFGt/E1HaJ2MOqJSlKkaDspA==$zkq/ubSJoqflS23Ot5EkI6H+LE+D26p+6C0wtPHIr4HPVZPfXR/ZiflXAQ01b2uXCfHN8XUzOXWY9MqcvBYIog=='
 passwordHash.compare('password', hash)
 .then((isValid) => {
   //> isValid === true
@@ -72,7 +72,7 @@ Safety is obtained by using safe digest, large number of iterations and large ke
 | -------------------------- | ------ | --------------------------------------------------- |
 | `password`                 | String |                                                     |
 | `[salt]`                   | String | _optional:_ salt                           |
-| `[opts.iterations=65536]`  | Number | _optional:_ PBKDF2 number of iterations (~10 hashes/sec @ 2GHz) |
+| `[opts.iterations=120000]` | Number | _optional:_ PBKDF2 number of iterations (~10 hashes/sec @ 2GHz) |
 | `[opts.digest=sha512]`     | String | _optional:_ PBKDF2 digest                           |
 | `[opts.keylen=64]`         | Number | _optional:_ PBKDF2 key length                       |
 | `[opts.saltlen=64]`        | Number | _optional:_ salt length in case salt is not defined |
@@ -93,23 +93,6 @@ validate password against passwordHash
 
 
 **Returns** `Promise`, true if hash matches password
-
-## Migrating from v1
-
-> **⚠ NOTE:** v1 had an issue with low entropy for the salt as only base64 encoded values where used as input.
-
-Therefore all stored strings do require updating the salt to maintain compatibility with >= v2.
-
-_Example:_
-
-```js
-const convert = require('pbkdf2-password-hash/src/convert')
-
-// update salt only...
-const current = 'sha512$65536$64$c2FsdA==$kEGgeRm+ulyMV3QF5mbBAmN/YvShWUDnfxSfEQCtDFB6iBXU0BestPw5tLYB46qpXy3gqk40zUHa0D/LCzR8aQ=='
-const newHash = convert(current)
-//> newHash === 'sha512$65536$64$YzJGc2RBPT0=$kEGgeRm+ulyMV3QF5mbBAmN/YvShWUDnfxSfEQCtDFB6iBXU0BestPw5tLYB46qpXy3gqk40zUHa0D/LCzR8aQ=='
-```
 
 ## Installation
 

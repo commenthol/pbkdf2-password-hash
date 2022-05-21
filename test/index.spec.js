@@ -4,7 +4,7 @@ import assert from 'assert'
 import passwordHash from '../src/index.js'
 
 describe('#passwordHash', function () {
-  const hash           = 'sha512$65536$64$YzJGc2RBPT0=$kEGgeRm+ulyMV3QF5mbBAmN/YvShWUDnfxSfEQCtDFB6iBXU0BestPw5tLYB46qpXy3gqk40zUHa0D/LCzR8aQ=='
+  const hash           = 'sha512$120000$64$YzJGc2RBPT0=$B0ollT5ky+Ng6S1UPjjAVd37KgXF+6ltCYHzVpXAXRbCkITDZzSBllFa1xDUYDDB7eMFYCn6YPT5WF40h3ekoA=='
   const hashBadHash    = 'sha512$100000$64$c2FsdA==$hSLNC2L8GqEGoWZYSKvktrMp+xBFYO5U2WaKBYNlEOmz6H+VIUQwRu3qs1zQlaVk+hSI4gRRMcRFQwOJZUAESw=='
   const hashBadSalt    = 'sha512$100000$64$d2FsdA==$gSLNC2L8GqEGoWZYSKvktrMp+xBFYO5U2WaKBYNlEOmz6H+VIUQwRu3qs1zQlaVk+hSI4gRRMcRFQwOJZUAESw=='
   const hashBadIter    = 'sha512$200000$64$c2FsdA==$gSLNC2L8GqEGoWZYSKvktrMp+xBFYO5U2WaKBYNlEOmz6H+VIUQwRu3qs1zQlaVk+hSI4gRRMcRFQwOJZUAESw=='
@@ -37,8 +37,8 @@ describe('#passwordHash', function () {
       .then((_hash) => {
         hash = _hash
         assert.ok(_hash)
-        assert.ok(_hash.indexOf('sha512$65536$64$') === 0)
-        assert.equal(_hash.length, 193)
+        assert.ok(_hash.indexOf('sha512$120000$64$') === 0)
+        assert.equal(_hash.length, 194)
         return passwordHash.hash('password')
       })
       .then((_hash) => {

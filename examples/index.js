@@ -1,4 +1,4 @@
-const passwordHash = require('..')
+import passwordHash from '../src/index.js'
 
 Promise.resolve()
   .then(() => {
@@ -6,7 +6,7 @@ Promise.resolve()
     return passwordHash.hash('password')
       .then((hash) => {
         console.log(hash)
-        // > hash === 'sha512$65536$64$F8zraj9jMjo/GmV91lPNVX7MP8iaJX/NK6YG4u4NH+wUeBBfydb5kZl4Bc7nlChZAH78YaExx9l0WfPuEC39Ew==$UcjfxN4pmEv+iD8nUjyd4hEnlkkkuLYEtAy1V3Cr3s96AAeyBLbRUhVgJTwSRJZUj23xQ2cuOPTnH/YoAkNqOQ=='
+        // > hash === 'sha512$120000$64$hBKkXNgl006VdFvQPyCawVYwdT78Uns1x0VnixvHHKfVzjS0Y0p58auWZ5AVV6MFGt/E1HaJ2MOqJSlKkaDspA==$zkq/ubSJoqflS23Ot5EkI6H+LE+D26p+6C0wtPHIr4HPVZPfXR/ZiflXAQ01b2uXCfHN8XUzOXWY9MqcvBYIog=='
       })
   })
   .then(() => {
@@ -24,7 +24,7 @@ Promise.resolve()
   })
   .then(() => {
     // Validate password hash
-    const hash = 'sha512$65536$64$F8zraj9jMjo/GmV91lPNVX7MP8iaJX/NK6YG4u4NH+wUeBBfydb5kZl4Bc7nlChZAH78YaExx9l0WfPuEC39Ew==$UcjfxN4pmEv+iD8nUjyd4hEnlkkkuLYEtAy1V3Cr3s96AAeyBLbRUhVgJTwSRJZUj23xQ2cuOPTnH/YoAkNqOQ=='
+    const hash = 'sha512$120000$64$hBKkXNgl006VdFvQPyCawVYwdT78Uns1x0VnixvHHKfVzjS0Y0p58auWZ5AVV6MFGt/E1HaJ2MOqJSlKkaDspA==$zkq/ubSJoqflS23Ot5EkI6H+LE+D26p+6C0wtPHIr4HPVZPfXR/ZiflXAQ01b2uXCfHN8XUzOXWY9MqcvBYIog=='
     return passwordHash.compare('password', hash)
       .then((isValid) => {
         console.log(isValid)
