@@ -33,7 +33,7 @@
     "ci": "npm run build && npm run lint && npm test && npm run types",
     "lint": "eslint --ext .js .",
     "test": "mocha",
-    "types": "rm -r types; tsc --emitDeclarationOnly true --noEmitOnError"
+    "types": "rm -r types; tsc"
   },
   "eslintConfig": {
     "extends": [
@@ -45,18 +45,18 @@
     "colors": true
   },
   "dependencies": {
-    "compare-timing-safe": "^2.0.2"
+    "compare-timing-safe": "^2.1.1"
   },
   "devDependencies": {
-    "@types/node": "^16.11.36",
-    "eslint": "^8.16.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "mocha": "^10.0.0",
-    "rollup": "^2.74.1",
-    "typescript": "^4.6.4"
+    "@types/node": "^20.8.3",
+    "eslint": "^8.51.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "mocha": "^10.2.0",
+    "rollup": "^4.0.2",
+    "typescript": "^5.2.2"
   },
   "engine": {
     "node": ">=12.0.0"
